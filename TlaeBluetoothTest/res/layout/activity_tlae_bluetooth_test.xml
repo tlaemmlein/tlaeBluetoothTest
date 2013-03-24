@@ -13,4 +13,33 @@
         android:layout_alignParentTop="true" >
     </de.thomaslaemmlein.tlaebluetoothtest.CounterView>
 
+    <EditText
+        android:id="@+id/currentNumber_EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/counterView1"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/sendNumber_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/currentNumber_EditText"
+        android:text="Set Number" />
+
+    <TextView
+        android:id="@+id/Title_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/sendNumber_Button"
+        android:text="TextView" />
+
 </RelativeLayout>

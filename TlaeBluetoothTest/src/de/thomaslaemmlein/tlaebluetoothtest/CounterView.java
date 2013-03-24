@@ -17,6 +17,8 @@ public class CounterView extends LinearLayout {
 	private int m_CurrentNumber;
 	
 	private int m_MaximalNumber = 99;
+	
+	private INumberReceiver m_NumberReceiver;
 
 	public CounterView(Context context) {
 		super(context);
@@ -29,6 +31,10 @@ public class CounterView extends LinearLayout {
 		init();
 	}
 	
+	public void SetNumberReceiver(INumberReceiver nr){
+		m_NumberReceiver = nr;
+	}
+	
 	private void init()
 	{
 		Log.d("CounterView", "init");
@@ -36,13 +42,26 @@ public class CounterView extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		View root = inflater.inflate(R.layout.counter_view, this, false);
 		
-		m_CurrentNumber = 0;
+	    try
+	    {
+	    	m_CurrentNumber = 0;
 		
-	    m_CounterTextView = (TextView)root.findViewById(R.id.counterTextView);
+	    	m_CounterTextView = (TextView)root.findViewById(R.id.counterTextView);
 	    
-	    m_CounterTextView.setText( Integer.toString(m_CurrentNumber));
+	    	m_CounterTextView.setText( Integer.toString(m_CurrentNumber));
+	    }
+	    catch(Exception e){
+	    }
 	    
 	    addView(root);
+	}
+	
+	public void SetNumber(int newNumber)
+	{
+		if ( newNumber <= m_MaximalNumber && newNumber >= 0){
+			m_CurrentNumber = newNumber;
+			m_CounterTextView.setText( Integer.toString(m_CurrentNumber));
+		}
 	}
 		
 	@Override
@@ -76,13 +95,21 @@ public class CounterView extends LinearLayout {
 	    if (m_CurrentNumber < m_MaximalNumber)
 	    {
 		    m_CurrentNumber++;
-		    m_CounterTextView.setText( Integer.toString(m_CurrentNumber));  	
+		    m_CounterTextView.setText( Integer.toString(m_CurrentNumber));
+		    if ( m_NumberReceiver != null )
+		    {
+		    	m_NumberReceiver.SetNumber(m_CurrentNumber);
+		    }
 	    }
 	   }else if((e2.getY() - e1.getY()) > sensitvity){
 		   if (m_CurrentNumber > 0)
 		   {
 			   m_CurrentNumber--;
 			   m_CounterTextView.setText( Integer.toString(m_CurrentNumber));
+    		   if ( m_NumberReceiver != null )
+			   {
+    			   m_NumberReceiver.SetNumber(m_CurrentNumber);
+			   }
 		   }
 	    swipe += "Swipe Down;";
 	   }else{
